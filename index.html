@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CalcPro — Advanced Calculator</title>
+  <meta name="description" content="A stunning full-featured advanced calculator with scientific, graphing, unit conversion, matrix operations, equation solver, and live currency exchange." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="app-container">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="app-logo">
+      <div class="app-logo-icon">🧮</div>
+      <h1 class="app-title">CalcPro</h1>
+    </div>
+    <p class="app-subtitle">Advanced Calculator Suite — Scientific · Graphing · Units · Matrix · Equations · Currency</p>
+  </header>
+
+  <!-- Tab Bar -->
+  <nav class="tab-bar" role="tablist" aria-label="Calculator Modes">
+    <button class="tab-btn" data-tab="scientific" role="tab" id="tab-btn-scientific" aria-controls="tab-scientific">
+      <span class="tab-icon">🧮</span> Scientific
+    </button>
+    <button class="tab-btn" data-tab="graphing" role="tab" id="tab-btn-graphing" aria-controls="tab-graphing">
+      <span class="tab-icon">📈</span> Graphing
+    </button>
+    <button class="tab-btn" data-tab="units" role="tab" id="tab-btn-units" aria-controls="tab-units">
+      <span class="tab-icon">🔄</span> Units
+    </button>
+    <button class="tab-btn" data-tab="matrix" role="tab" id="tab-btn-matrix" aria-controls="tab-matrix">
+      <span class="tab-icon">🔢</span> Matrix
+    </button>
+    <button class="tab-btn" data-tab="equations" role="tab" id="tab-btn-equations" aria-controls="tab-equations">
+      <span class="tab-icon">⚡</span> Equations
+    </button>
+    <button class="tab-btn" data-tab="currency" role="tab" id="tab-btn-currency" aria-controls="tab-currency">
+      <span class="tab-icon">💱</span> Currency
+    </button>
+  </nav>
+
+  <!-- === TAB: SCIENTIFIC CALCULATOR === -->
+  <section class="tab-content" id="tab-scientific" role="tabpanel" aria-labelledby="tab-btn-scientific">
+    <div class="sci-layout">
+
+      <!-- Left: Calculator -->
+      <div class="sci-main">
+
+        <!-- Display -->
+        <div class="sci-display-wrap glass-card">
+          <div id="sci-preview" aria-live="polite"></div>
+          <div id="sci-display" aria-live="assertive" aria-atomic="true">0</div>
+        </div>
+
+        <!-- Memory & Angle Bar -->
+        <div class="sci-meta-bar">
+          <button class="sci-meta-btn" onclick="ScientificCalc.memStore()" title="Memory Store">MS</button>
+          <button class="sci-meta-btn" onclick="ScientificCalc.memAdd()" title="Memory Add">M+</button>
+          <button class="sci-meta-btn" onclick="ScientificCalc.memSub()" title="Memory Subtract">M−</button>
+          <button class="sci-meta-btn" onclick="ScientificCalc.memRecall()" title="Memory Recall">MR</button>
+          <button class="sci-meta-btn" onclick="ScientificCalc.memClear()" title="Memory Clear">MC</button>
+          <button class="sci-meta-btn" id="angle-toggle" onclick="ScientificCalc.toggleAngle()" title="Toggle Degrees/Radians">DEG</button>
+        </div>
+
+        <!-- Button Grid -->
+        <div class="sci-buttons glass-card p-16">
+          <!-- Row 1: Functions -->
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('sin(')">sin</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('cos(')">cos</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('tan(')">tan</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('log(')">log</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('ln(')">ln</button>
+
+          <!-- Row 2 -->
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('asin(')">sin⁻¹</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('acos(')">cos⁻¹</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('atan(')">tan⁻¹</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('√(')">√</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.square()">x²</button>
+
+          <!-- Row 3 -->
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('π')">π</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('e')">e</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.cube()">x³</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('^')">xⁿ</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.reciprocal()">1/x</button>
+
+          <!-- Row 4 -->
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr('(')"> ( </button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.appendToExpr(')')"> ) </button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.percent()">%</button>
+          <button class="calc-btn btn-clear" onclick="ScientificCalc.del()">⌫</button>
+          <button class="calc-btn btn-clear" onclick="ScientificCalc.clear()">AC</button>
+
+          <!-- Row 5: Digits + Ops -->
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('7')">7</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('8')">8</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('9')">9</button>
+          <button class="calc-btn btn-op" onclick="ScientificCalc.appendToExpr('÷')">÷</button>
+          <button class="calc-btn btn-op" onclick="ScientificCalc.appendToExpr('!')">n!</button>
+
+          <!-- Row 6 -->
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('4')">4</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('5')">5</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('6')">6</button>
+          <button class="calc-btn btn-op" onclick="ScientificCalc.appendToExpr('×')">×</button>
+          <button class="calc-btn btn-op" onclick="ScientificCalc.appendToExpr('10^')">10ˣ</button>
+
+          <!-- Row 7 -->
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('1')">1</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('2')">2</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('3')">3</button>
+          <button class="calc-btn btn-op" onclick="ScientificCalc.appendToExpr('-')">−</button>
+          <button class="calc-btn btn-op" onclick="ScientificCalc.appendToExpr('+')">+</button>
+
+          <!-- Row 8 -->
+          <button class="calc-btn btn-zero" onclick="ScientificCalc.appendToExpr('0')">0</button>
+          <button class="calc-btn" onclick="ScientificCalc.appendToExpr('.')">.</button>
+          <button class="calc-btn btn-fn" onclick="ScientificCalc.toggleSign()">±</button>
+          <button class="calc-btn btn-eq" onclick="ScientificCalc.calculate()">=</button>
+        </div>
+
+        <p style="font-size:11px;color:var(--text-dim);text-align:center;">
+          Keyboard supported: digits, +, −, *, /, Enter, Backspace, Escape
+        </p>
+      </div>
+
+      <!-- Right: History -->
+      <aside class="glass-card sci-history">
+        <div class="sci-history-header">
+          <span>History</span>
+          <button class="sci-meta-btn" onclick="ScientificCalc.clearHistory?.()">Clear</button>
+        </div>
+        <div id="sci-history">
+          <div class="history-empty">No calculations yet.<br>Start computing! 🚀</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- === TAB: GRAPHING === -->
+  <section class="tab-content" id="tab-graphing" role="tabpanel" aria-labelledby="tab-btn-graphing">
+    <div class="glass-card p-16 mb-12">
+      <div class="section-title">Plot Functions</div>
+      <div class="graph-controls">
+        <div class="graph-input-wrap">
+          <span class="graph-input-label">f(x) =</span>
+          <input type="text" id="graph-input" placeholder="e.g. sin(x), x^2, cos(x)*2" aria-label="Function expression"
+                 onkeydown="if(event.key==='Enter')GraphingCalc.addFunction()" />
+        </div>
+        <button class="graph-btn" onclick="GraphingCalc.addFunction()">+ Add</button>
+        <button class="graph-btn secondary" onclick="GraphingCalc.reset()">⌖ Reset</button>
+        <button class="graph-btn danger" onclick="GraphingCalc.clearAll()">🗑 Clear</button>
+      </div>
+      <div id="graph-fn-list"></div>
+    </div>
+
+    <div class="graph-canvas-wrap glass-card">
+      <canvas id="graph-canvas" aria-label="Function graph"></canvas>
+      <div class="graph-zoom-controls">
+        <button class="zoom-btn" onclick="GraphingCalc.zoomIn()" title="Zoom In">+</button>
+        <button class="zoom-btn" onclick="GraphingCalc.zoomOut()" title="Zoom Out">−</button>
+      </div>
+      <div class="graph-hint">🖱 Scroll to zoom · Drag to pan</div>
+    </div>
+
+    <div class="glass-card p-16" style="margin-top:12px;">
+      <div class="section-title">Quick Examples</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='sin(x)';GraphingCalc.addFunction()">sin(x)</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='cos(x)';GraphingCalc.addFunction()">cos(x)</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='x^2';GraphingCalc.addFunction()">x²</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='x^3-3*x';GraphingCalc.addFunction()">x³−3x</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='tan(x)';GraphingCalc.addFunction()">tan(x)</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='1/x';GraphingCalc.addFunction()">1/x</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='sqrt(x)';GraphingCalc.addFunction()">√x</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='abs(x)';GraphingCalc.addFunction()">|x|</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='2^x';GraphingCalc.addFunction()">2ˣ</button>
+        <button class="graph-btn secondary" onclick="document.getElementById('graph-input').value='ln(x)';GraphingCalc.addFunction()">ln(x)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- === TAB: UNIT CONVERTER === -->
+  <section class="tab-content" id="tab-units" role="tabpanel" aria-labelledby="tab-btn-units">
+    <div class="glass-card p-16">
+      <h2 class="section-title">Unit Converter</h2>
+      <div id="unit-tabs"></div>
+      <div id="unit-converter-body"></div>
+    </div>
+  </section>
+
+  <!-- === TAB: MATRIX CALCULATOR === -->
+  <section class="tab-content" id="tab-matrix" role="tabpanel" aria-labelledby="tab-btn-matrix">
+    <div class="glass-card p-16">
+      <h2 class="section-title">Matrix Calculator</h2>
+      <div class="matrix-layout">
+
+        <!-- Matrix A -->
+        <div class="matrix-panel">
+          <div class="matrix-panel-header">
+            <div class="matrix-title">Matrix A</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <div class="matrix-size-ctrl">
+                <label>Rows</label>
+                <input type="number" class="matrix-size-inp" id="rows-A" value="2" min="1" max="5" onchange="MatrixCalc.resizeMatrix('A')" />
+                <label>Cols</label>
+                <input type="number" class="matrix-size-inp" id="cols-A" value="2" min="1" max="5" onchange="MatrixCalc.resizeMatrix('A')" />
+              </div>
+              <div class="matrix-quick-btns">
+                <button class="matrix-qbtn" onclick="MatrixCalc.fillRandom('A')">Random</button>
+                <button class="matrix-qbtn" onclick="MatrixCalc.fillIdentity('A')">Identity</button>
+              </div>
+            </div>
+          </div>
+          <div id="matrix-A"></div>
+        </div>
+
+        <!-- Matrix B -->
+        <div class="matrix-panel">
+          <div class="matrix-panel-header">
+            <div class="matrix-title">Matrix B</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <div class="matrix-size-ctrl">
+                <label>Rows</label>
+                <input type="number" class="matrix-size-inp" id="rows-B" value="2" min="1" max="5" onchange="MatrixCalc.resizeMatrix('B')" />
+                <label>Cols</label>
+                <input type="number" class="matrix-size-inp" id="cols-B" value="2" min="1" max="5" onchange="MatrixCalc.resizeMatrix('B')" />
+              </div>
+              <div class="matrix-quick-btns">
+                <button class="matrix-qbtn" onclick="MatrixCalc.fillRandom('B')">Random</button>
+                <button class="matrix-qbtn" onclick="MatrixCalc.fillIdentity('B')">Identity</button>
+              </div>
+            </div>
+          </div>
+          <div id="matrix-B"></div>
+        </div>
+
+        <!-- Operations -->
+        <div class="matrix-ops">
+          <button class="mat-op-btn" onclick="MatrixCalc.add()">A + B</button>
+          <button class="mat-op-btn" onclick="MatrixCalc.subtract()">A − B</button>
+          <button class="mat-op-btn" onclick="MatrixCalc.multiply()">A × B</button>
+          <button class="mat-op-btn single" onclick="MatrixCalc.determinant()">det(A)</button>
+          <button class="mat-op-btn single" onclick="MatrixCalc.inverse()">A⁻¹</button>
+          <button class="mat-op-btn single" onclick="MatrixCalc.transpose()">Aᵀ</button>
+          <div class="mat-power-wrap">
+            <button class="mat-op-btn single" onclick="MatrixCalc.power()">A^n</button>
+            <input type="number" id="mat-power" value="2" min="0" max="10" placeholder="n" title="Power" />
+          </div>
+          <button class="mat-op-btn danger" onclick="MatrixCalc.clearAll()">Clear All</button>
+        </div>
+
+        <!-- Result -->
+        <div id="matrix-result">
+          <div style="text-align:center;color:var(--text-dim);padding:32px;font-size:13px;">
+            Select an operation above to see the result
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === TAB: EQUATION SOLVER === -->
+  <section class="tab-content" id="tab-equations" role="tabpanel" aria-labelledby="tab-btn-equations">
+    <div class="glass-card p-16">
+      <h2 class="section-title">Equation Solver</h2>
+      <div class="eq-modes">
+        <button class="eq-mode-btn" data-mode="linear" onclick="EquationSolver.switchMode('linear')">Linear</button>
+        <button class="eq-mode-btn" data-mode="quadratic" onclick="EquationSolver.switchMode('quadratic')">Quadratic</button>
+        <button class="eq-mode-btn" data-mode="cubic" onclick="EquationSolver.switchMode('cubic')">Cubic</button>
+        <button class="eq-mode-btn" data-mode="system" onclick="EquationSolver.switchMode('system')">2×2 System</button>
+      </div>
+      <div id="eq-body"></div>
+    </div>
+  </section>
+
+  <!-- === TAB: CURRENCY CONVERTER === -->
+  <section class="tab-content" id="tab-currency" role="tabpanel" aria-labelledby="tab-btn-currency">
+
+    <!-- Rate Marquee Ticker -->
+    <div class="rate-marquee">
+      <div id="rate-marquee-inner">
+        <span class="marquee-item">Loading rates…</span>
+      </div>
+    </div>
+
+    <div class="currency-layout">
+
+      <!-- Main Converter -->
+      <div class="glass-card p-16">
+        <h2 class="section-title">Currency Converter</h2>
+
+        <div class="currency-row">
+          <div class="currency-col">
+            <label for="currency-from">From</label>
+            <select id="currency-from" class="currency-select" onchange="CurrencyConverter.convert()"></select>
+          </div>
+          <button class="currency-swap-btn" onclick="CurrencyConverter.swap()" title="Swap currencies">⇄</button>
+          <div class="currency-col">
+            <label for="currency-to">To</label>
+            <select id="currency-to" class="currency-select" onchange="CurrencyConverter.convert()"></select>
+          </div>
+        </div>
+
+        <div class="currency-col" style="margin-bottom:16px;">
+          <label for="currency-amount">Amount</label>
+          <input type="number" id="currency-amount" class="currency-amount-inp" value="1" oninput="CurrencyConverter.convert()" />
+        </div>
+
+        <div class="currency-result-wrap">
+          <div id="currency-result">—</div>
+          <div id="currency-rate"></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <div id="currency-status"></div>
+          <button class="currency-refresh-btn" onclick="CurrencyConverter.refresh()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- Cross Rates -->
+      <div class="glass-card cross-rates-panel">
+        <div class="cross-rates-header">Major Cross Rates</div>
+        <div id="cross-rates">
+          <div style="text-align:center;color:var(--text-dim);padding:32px;font-size:13px;">
+            Loading…
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /.app-container -->
+
+<!-- Scripts -->
+<script src="modules/scientific.js"></script>
+<script src="modules/graphing.js"></script>
+<script src="modules/units.js"></script>
+<script src="modules/matrix.js"></script>
+<script src="modules/equations.js"></script>
+<script src="modules/currency.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
